@@ -3,7 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"gopkg.in/urfave/cli"
+	"github.com/urfave/cli"
 	"os"
 )
 
