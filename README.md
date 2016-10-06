@@ -2,9 +2,9 @@
 
 `uniq -c` requires incoming data to be sorted first, this can be a slow process.
 
-`count` will take any line delimited stdin and perform a word count on lines that match.
+`count` will take any line delimited input from stdin and count unique lines. 
 
-## Note
+## Warning
 
 `count` will store an entry for each unique item it finds in a map. If every line of your input is unique, memory usage will be the size of the input _plus_ the overhead for storing a key in the map. 
 
