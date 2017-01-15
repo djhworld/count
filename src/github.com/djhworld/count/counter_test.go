@@ -3,6 +3,8 @@ package main
 import "testing"
 import "reflect"
 
+var EMPTY interface{} = new(interface{})
+
 func TestShouldInitialiseWithEmptyMap(t *testing.T) {
 	c := NewCounter()
 
@@ -32,12 +34,14 @@ func TestShouldCountUniqueItems(t *testing.T) {
 
 func TestShouldRender(t *testing.T) {
 	c := NewCounter()
-	expected := "daniel\t1\ntest\t2\n"
-	var actual string = ""
+	var expected map[string]interface{} = make(map[string]interface{})
+	expected["daniel\t1\n"] = EMPTY
+	expected["test\t2\n"] = EMPTY
 
+	var actual map[string]interface{} = make(map[string]interface{})
 	mockWriter := &MockWriter{
 		mockWrite: func(p []byte) (n int, err error) {
-			actual = actual + string(p)
+			actual[string(p)] = EMPTY
 			return 0, nil
 		},
 	}
@@ -48,7 +52,7 @@ func TestShouldRender(t *testing.T) {
 
 	c.Render(mockWriter)
 
-	if expected != actual {
+	if reflect.DeepEqual(expected, actual) != true {
 		t.Error("Expected actual to be the same as expected, expected", expected, "got", actual)
 	}
 }
