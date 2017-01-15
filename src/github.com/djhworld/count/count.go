@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"github.com/urfave/cli"
 	"os"
 )
@@ -16,20 +15,12 @@ func main() {
 }
 
 func countInput(c *cli.Context) error {
-	results := make(map[string]int)
+	counter := NewCounter()
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
-		var item string = scanner.Text()
-		if _, ok := results[item]; !ok {
-			results[item] = 1
-		} else {
-			results[item] += 1
-		}
+		counter.Add(scanner.Text())
 	}
 
-	for k, v := range results {
-		fmt.Printf("%s\t%d\n", k, v)
-	}
-
+	counter.Render(os.Stdout)
 	return nil
 }
