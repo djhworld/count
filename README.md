@@ -1,8 +1,8 @@
-# Count
+# count
 
 `uniq -c` requires incoming data to be sorted first, this can be a slow process.
 
-`count` will take any line delimited input from stdin and count unique lines. 
+`count` will take any line delimited input from a file, or stdin, and count unique lines. 
 
 ## Warning
 
@@ -18,6 +18,7 @@
     arrested development	1838
     stranger things	2039
     house of cards	3985
-    
 
-
+    $ count items.txt
+    item1	395
+    item2	829
