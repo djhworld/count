@@ -23,8 +23,12 @@ func (c *Counter) Add(item string) {
 	}
 }
 
-func (c *Counter) Render(writer io.Writer) {
+func (c *Counter) Render(writer io.Writer, uniqueOnly bool) {
 	for k, v := range c.uniqueItems {
-		fmt.Fprintf(writer, "%d\t%s\n", v, k)
+		if uniqueOnly {
+			fmt.Fprintf(writer, "%s\n", k)
+		} else {
+			fmt.Fprintf(writer, "%d\t%s\n", v, k)
+		}
 	}
 }

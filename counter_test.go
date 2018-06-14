@@ -50,7 +50,33 @@ func TestShouldRender(t *testing.T) {
 	c.Add("test")
 	c.Add("test")
 
-	c.Render(mockWriter)
+	c.Render(mockWriter, false)
+
+	if reflect.DeepEqual(expected, actual) != true {
+		t.Error("Expected actual to be the same as expected, expected", expected, "got", actual)
+	}
+}
+
+func TestShouldRenderUniqueLinesOnly(t *testing.T) {
+	c := NewCounter()
+	var expected map[string]interface{} = make(map[string]interface{})
+	expected["daniel\n"] = EMPTY
+	expected["test\n"] = EMPTY
+
+	var actual map[string]interface{} = make(map[string]interface{})
+	mockWriter := &MockWriter{
+		mockWrite: func(p []byte) (n int, err error) {
+			actual[string(p)] = EMPTY
+			return 0, nil
+		},
+	}
+
+	c.Add("test")
+	c.Add("daniel")
+	c.Add("daniel")
+	c.Add("test")
+
+	c.Render(mockWriter, true)
 
 	if reflect.DeepEqual(expected, actual) != true {
 		t.Error("Expected actual to be the same as expected, expected", expected, "got", actual)
@@ -69,7 +95,7 @@ func TestShouldRenderNothingOnEmptyMap(t *testing.T) {
 	c := NewCounter()
 	expected := ""
 
-	c.Render(mockWriter)
+	c.Render(mockWriter, false)
 
 	if expected != actual {
 		t.Error("Expected actual to be the same as expected, expected", expected, "got", actual)

@@ -7,6 +7,7 @@ import (
 	"github.com/urfave/cli"
 )
 
+const UNIQUE_ONLY = "unique"
 const ERR = 255
 
 func openFile(filename string) (*os.File, error) {
@@ -30,7 +31,7 @@ func countInput(c *cli.Context) error {
 		counter.Add(scanner.Text())
 	}
 
-	counter.Render(os.Stdout)
+	counter.Render(os.Stdout, c.Bool(UNIQUE_ONLY))
 	return nil
 }
 
@@ -44,6 +45,13 @@ func main() {
 		cli.Author{
 			Name:  "Daniel Harper",
 			Email: "@djhworld",
+		},
+	}
+
+	app.Flags = []cli.Flag{
+		cli.BoolFlag{
+			Name:  "unique, u",
+			Usage: "only print unique lines",
 		},
 	}
 	app.Action = countInput
