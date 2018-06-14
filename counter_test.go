@@ -35,8 +35,8 @@ func TestShouldCountUniqueItems(t *testing.T) {
 func TestShouldRender(t *testing.T) {
 	c := NewCounter()
 	var expected map[string]interface{} = make(map[string]interface{})
-	expected["daniel\t1\n"] = EMPTY
-	expected["test\t2\n"] = EMPTY
+	expected["1\tdaniel\n"] = EMPTY
+	expected["2\ttest\n"] = EMPTY
 
 	var actual map[string]interface{} = make(map[string]interface{})
 	mockWriter := &MockWriter{

@@ -25,6 +25,6 @@ func (c *Counter) Add(item string) {
 
 func (c *Counter) Render(writer io.Writer) {
 	for k, v := range c.uniqueItems {
-		fmt.Fprintf(writer, "%s\t%d\n", k, v)
+		fmt.Fprintf(writer, "%d\t%s\n", v, k)
 	}
 }
