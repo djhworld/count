@@ -25,13 +25,13 @@ func countInput(c *cli.Context) error {
 	}
 	defer file.Close()
 
-	counter := NewCounter()
+	counter := NewCounter(RenderOptions{uniqueOnly: c.Bool(UNIQUE_ONLY)})
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		counter.Add(scanner.Text())
 	}
 
-	counter.Render(os.Stdout, c.Bool(UNIQUE_ONLY))
+	counter.Render(os.Stdout)
 	return nil
 }
 

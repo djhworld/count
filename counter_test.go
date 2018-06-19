@@ -6,7 +6,7 @@ import "reflect"
 var EMPTY interface{} = new(interface{})
 
 func TestShouldInitialiseWithEmptyMap(t *testing.T) {
-	c := NewCounter()
+	c := NewCounter(RenderOptions{})
 
 	if len(c.uniqueItems) != 0 {
 		t.Error("Expected empty map")
@@ -19,7 +19,7 @@ func TestShouldCountUniqueItems(t *testing.T) {
 	expected["goodbye"] = 1
 	expected["daniel"] = 3
 
-	c := NewCounter()
+	c := NewCounter(RenderOptions{})
 	c.Add("daniel")
 	c.Add("hello")
 	c.Add("daniel")
@@ -33,7 +33,7 @@ func TestShouldCountUniqueItems(t *testing.T) {
 }
 
 func TestShouldRender(t *testing.T) {
-	c := NewCounter()
+	c := NewCounter(RenderOptions{})
 	var expected map[string]interface{} = make(map[string]interface{})
 	expected["1\tdaniel\n"] = EMPTY
 	expected["2\ttest\n"] = EMPTY
@@ -50,7 +50,7 @@ func TestShouldRender(t *testing.T) {
 	c.Add("test")
 	c.Add("test")
 
-	c.Render(mockWriter, false)
+	c.Render(mockWriter)
 
 	if reflect.DeepEqual(expected, actual) != true {
 		t.Error("Expected actual to be the same as expected, expected", expected, "got", actual)
@@ -58,7 +58,7 @@ func TestShouldRender(t *testing.T) {
 }
 
 func TestShouldRenderUniqueLinesOnly(t *testing.T) {
-	c := NewCounter()
+	c := NewCounter(RenderOptions{uniqueOnly: true})
 	var expected map[string]interface{} = make(map[string]interface{})
 	expected["daniel\n"] = EMPTY
 	expected["test\n"] = EMPTY
@@ -76,7 +76,7 @@ func TestShouldRenderUniqueLinesOnly(t *testing.T) {
 	c.Add("daniel")
 	c.Add("test")
 
-	c.Render(mockWriter, true)
+	c.Render(mockWriter)
 
 	if reflect.DeepEqual(expected, actual) != true {
 		t.Error("Expected actual to be the same as expected, expected", expected, "got", actual)
@@ -92,10 +92,10 @@ func TestShouldRenderNothingOnEmptyMap(t *testing.T) {
 		},
 	}
 
-	c := NewCounter()
+	c := NewCounter(RenderOptions{})
 	expected := ""
 
-	c.Render(mockWriter, false)
+	c.Render(mockWriter)
 
 	if expected != actual {
 		t.Error("Expected actual to be the same as expected, expected", expected, "got", actual)
